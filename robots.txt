@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://simonhdickson.github.io/sitemap.xml 
