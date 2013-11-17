@@ -1,16 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[Simon's Blog]]></title>
   <link href="http://simonhdickson.github.io/atom.xml" rel="self"/>
   <link href="http://simonhdickson.github.io/"/>
-  <updated>2013-11-16T15:12:17+00:00</updated>
+  <updated>2013-11-17T13:20:29+00:00</updated>
   <id>http://simonhdickson.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Simon Dickson]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[FsCheck]]></title>
+    <link href="http://simonhdickson.github.io/blog/2013/11/16/fscheck/"/>
+    <updated>2013-11-16T15:33:00+00:00</updated>
+    <id>http://simonhdickson.github.io/blog/2013/11/16/fscheck</id>
+    <content type="html"><![CDATA[<h2>Property based testing</h2>
+
+<p>So you might be first wondering what property based testing means. Simply put you describe properties of your functions, and then you bombard your code with data trying to prove or disprove these properties.</p>
+
+<p>Here&rsquo;s an example, let&rsquo;s say we have a function like this:</p>
+
+<figure class='code'><figcaption><span>Remove Negatives Function</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="k">let</span> <span class="n">removeNegatives</span> <span class="kt">list</span> <span class="o">=</span>
+</span><span class='line'>        <span class="k">let</span> <span class="k">rec</span> <span class="n">removeNegatives&#39;</span> <span class="kt">list</span> <span class="n">newList</span> <span class="o">=</span>
+</span><span class='line'>            <span class="k">match</span> <span class="kt">list</span> <span class="k">with</span>
+</span><span class='line'>            <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="n">newList</span>
+</span><span class='line'>            <span class="o">|</span> <span class="n">head</span> <span class="o">::</span> <span class="n">tail</span> <span class="k">when</span> <span class="n">head</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">-&gt;</span> <span class="n">removeNegatives&#39;</span> <span class="n">tail</span> <span class="n">newList</span>
+</span><span class='line'>            <span class="o">|</span> <span class="n">head</span> <span class="o">::</span> <span class="n">tail</span> <span class="o">-&gt;</span> <span class="n">removeNegatives&#39;</span> <span class="n">tail</span> <span class="o">(</span><span class="n">head</span> <span class="o">::</span> <span class="n">newList</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">removeNegatives&#39;</span> <span class="kt">list</span> <span class="bp">[]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And we want to say this function has the following three properties:</p>
+
+<ol>
+<li>If you pass in a list, it returns the list without any negative numbers in it.</li>
+<li>If you pass in a list without any negative numbers in it, you get exactly the same list back (this is implied from the first property, but let&rsquo;s make it explict anyway).</li>
+<li>The function will not re-order the elements.</li>
+</ol>
+
+
+<p>So, how do we go about testing these properties?</p>
+
+<h2>FsCheck to the rescue</h2>
+
+<p>FsCheck is an F# port of the Haskell framework QuickCheck. What it&rsquo;ll let us do is fire a whole bunch of data at our function with the aim of helping us ensure that these properties hold.</p>
+
+<p>Now before we get onto FsCheck itself, let&rsquo;s look at how we might test this traditionally. Normally using something like xUnit, you&rsquo;d have to write specific examples such as this:</p>
+
+<figure class='code'><figcaption><span>Normal test </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="o">[&lt;</span><span class="nc">Fact</span><span class="o">&gt;]</span>
+</span><span class='line'><span class="k">let</span> <span class="o">``</span><span class="k">for</span> <span class="n">a</span> <span class="n">non</span><span class="o">-</span><span class="n">negative</span> <span class="kt">list</span><span class="o">,</span> <span class="n">returns</span> <span class="n">the</span> <span class="n">same</span> <span class="kt">list</span><span class="o">``</span> <span class="bp">()</span> <span class="o">=</span>
+</span><span class='line'>    <span class="k">let</span> <span class="kt">list</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">result</span> <span class="o">=</span> <span class="kt">list</span> <span class="o">=</span> <span class="n">removeNegatives</span> <span class="kt">list</span>
+</span><span class='line'>    <span class="nn">Assert</span><span class="p">.</span><span class="nc">True</span> <span class="n">result</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This does work, but it means you have to manually come up with a few examples of this, a few examples of the other ones. In this particular case the function is simple enough that this would find any bugs but in more complex functions there might be certain numbers that would break it.</p>
+
+<p>So using FsCheck we would instead might define this test like this:</p>
+
+<figure class='code'><figcaption><span>FsCheck test</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="o">[&lt;</span><span class="nc">Property</span><span class="o">&gt;]</span>
+</span><span class='line'><span class="k">let</span> <span class="o">``</span><span class="k">for</span> <span class="n">a</span> <span class="n">non</span><span class="o">-</span><span class="n">negative</span> <span class="kt">list</span><span class="o">,</span> <span class="n">returns</span> <span class="n">the</span> <span class="n">same</span> <span class="kt">list</span><span class="o">``</span> <span class="o">(</span><span class="kt">list</span><span class="o">:</span><span class="nc">NonNegativeInt</span> <span class="kt">list</span><span class="o">)</span> <span class="o">=</span>
+</span><span class='line'>    <span class="k">let</span> <span class="kt">list</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(</span><span class="n">i</span><span class="o">:</span><span class="nc">NonNegativeInt</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">i</span><span class="o">.</span><span class="nc">Get</span><span class="o">)</span> <span class="kt">list</span>
+</span><span class='line'>    <span class="kt">list</span> <span class="o">=</span> <span class="n">removeNegatives</span> <span class="kt">list</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Property attribute works just like the Fact in xUnit or the Test in Nunit. There is one major difference however: the function no longer takes unit, it can take any parameter that FsCheck knows how to create (and yes, you can define them yourself). NonNegativeInt is a built in alias for int which is as the name suggests is a non-zero int.</p>
+
+<p>You may also have noticed that there are no asserts in this test either. That is because as long as your function returns something FsCheck understands (i.e. bool, exceptions, etc), FsCheck will work out whether the test failed or not that way. So in this case, so long as the final line resolves to true, then the test will be considered to have passed.</p>
+
+<p>There is actually one final thing to note here aswell, this test isn&rsquo;t excuted once. By default FsCheck will try to find 100 parameters that work and run the test that many times. You can change this number by setting the MaxSize like this:</p>
+
+<figure class='code'><figcaption><span>FsCheck MaxSize</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="o">[&lt;</span><span class="nc">Property</span><span class="o">(</span><span class="nc">MaxSize</span><span class="o">=</span><span class="mi">1000</span><span class="o">)&gt;]</span>
+</span><span class='line'><span class="k">let</span> <span class="o">``</span><span class="n">my</span> <span class="n">test</span><span class="o">``</span> <span class="bp">()</span> <span class="o">=</span>
+</span><span class='line'>    <span class="o">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Anyway, back the tests. If you try and run this test, you&rsquo;ll see that it fails. Oh noes! What could possibly be wrong?!?! Oh yes, have you noticed that the list is actually reversed during the process, which breaks one of our properties. So lets fix that.</p>
+
+<figure class='code'><figcaption><span>Remove Negatives Function V2</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="k">let</span> <span class="n">removeNegatives</span> <span class="kt">list</span> <span class="o">=</span>
+</span><span class='line'>        <span class="k">let</span> <span class="k">rec</span> <span class="n">removeNegatives&#39;</span> <span class="kt">list</span> <span class="n">newList</span> <span class="o">=</span>
+</span><span class='line'>            <span class="k">match</span> <span class="kt">list</span> <span class="k">with</span>
+</span><span class='line'>            <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">rev</span> <span class="n">newList</span>
+</span><span class='line'>            <span class="o">|</span> <span class="n">head</span> <span class="o">::</span> <span class="n">tail</span> <span class="k">when</span> <span class="n">head</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">-&gt;</span> <span class="n">removeNegatives&#39;</span> <span class="n">tail</span> <span class="n">newList</span>
+</span><span class='line'>            <span class="o">|</span> <span class="n">head</span> <span class="o">::</span> <span class="n">tail</span> <span class="o">-&gt;</span> <span class="n">removeNegatives&#39;</span> <span class="n">tail</span> <span class="o">(</span><span class="n">head</span> <span class="o">::</span> <span class="n">newList</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">removeNegatives&#39;</span> <span class="kt">list</span> <span class="bp">[]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ok, so now we have a test covering that second property: if you pass in a non-negative list, you get the same list back again.</p>
+
+<p>So now how about the first property, testing for the removal of elements less than zero. Well first we could write a test that checks that if you pass in a list of negative numbers, it should always return an empty list:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="o">[&lt;</span><span class="nc">Property</span><span class="o">&gt;]</span>
+</span><span class='line'><span class="k">let</span> <span class="o">``</span><span class="k">for</span> <span class="n">a</span> <span class="n">negative</span> <span class="kt">list</span><span class="o">,</span> <span class="n">returns</span> <span class="n">an</span> <span class="n">empty</span> <span class="kt">list</span><span class="o">``</span> <span class="o">(</span><span class="kt">list</span><span class="o">:</span><span class="nc">PositiveInt</span> <span class="kt">list</span><span class="o">)</span> <span class="o">=</span>
+</span><span class='line'>    <span class="k">let</span> <span class="kt">list</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(</span><span class="n">i</span><span class="o">:</span><span class="nc">PositiveInt</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">i</span><span class="o">.</span><span class="nc">Get</span><span class="o">)</span> <span class="kt">list</span>
+</span><span class='line'>    <span class="bp">[]</span> <span class="o">=</span> <span class="n">removeNegatives</span> <span class="kt">list</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ok great and that passes, maybe we should write a test that tests if it actually filters things out. Well that looks something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="o">[&lt;</span><span class="nc">Property</span><span class="o">&gt;]</span>
+</span><span class='line'>    <span class="k">let</span> <span class="o">``</span><span class="k">for</span> <span class="n">a</span> <span class="n">mixed</span> <span class="kt">list</span><span class="o">,</span> <span class="n">returns</span> <span class="n">a</span> <span class="n">positive</span> <span class="kt">list</span><span class="o">``</span> <span class="o">(</span><span class="kt">list</span><span class="o">:</span><span class="kt">int</span> <span class="kt">list</span><span class="o">)</span> <span class="o">=</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">outputList</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="kt">list</span>
+</span><span class='line'>        <span class="n">outputList</span> <span class="o">=</span> <span class="n">removeNegatives</span> <span class="kt">list</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this case, this test rather points out the uselessness of this function. Maybe that makes it quite a bad example, but I put it here for completeness anyway (after all it does implement the same function in a single line).</p>
+
+<h2>Side note</h2>
+
+<p>I probably should point out that I have had some problem with using FsCheck, if you have you&rsquo;re using NCrunch you might notice the tests don&rsquo;t get picked up. However, I have found that if you include the following code in your module it works:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="o">[&lt;</span><span class="nc">Fact</span><span class="o">&gt;]</span>
+</span><span class='line'><span class="k">let</span> <span class="o">``</span><span class="n">ignore</span> <span class="n">this</span> <span class="n">test</span><span class="o">``</span> <span class="bp">()</span> <span class="o">=</span>
+</span><span class='line'>    <span class="bp">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This (for some reason) causes NCrunch to see all the other tests too.</p>
+]]></content>
+  </entry>
   
 </feed>
