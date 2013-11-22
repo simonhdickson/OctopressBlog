@@ -163,7 +163,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The Property attribute works just like the Fact in xUnit or the Test in Nunit. There is one major difference however: the function no longer takes unit, it can take any parameter that FsCheck knows how to create (and yes, you can define them yourself). NonNegativeInt is a built in alias for int which is as the name suggests is a non-zero int.</p>
+<p>The Property attribute works just like the Fact in xUnit or the Test in Nunit. There is one major difference however: the function no longer takes unit, it can take any parameter that FsCheck knows how to create (and yes, you can define them yourself). NonNegativeInt is a built in alias for int which is as the name suggests is a int which is not negative.</p>
 
 <p>You may also have noticed that there are no asserts in this test either. That is because as long as your function returns something FsCheck understands (i.e. bool, exceptions, etc), FsCheck will work out whether the test failed or not that way. So in this case, so long as the final line resolves to true, then the test will be considered to have passed.</p>
 
