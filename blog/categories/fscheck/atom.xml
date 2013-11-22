@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: FsCheck | Simon's Blog]]></title>
+  <link href="http://simonhdickson.github.io/blog/categories/fscheck/atom.xml" rel="self"/>
+  <link href="http://simonhdickson.github.io/"/>
+  <updated>2013-11-22T17:26:07+00:00</updated>
+  <id>http://simonhdickson.github.io/</id>
+  <author>
+    <name><![CDATA[Simon Dickson]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[FsCheck]]></title>
+    <link href="http://simonhdickson.github.io/blog/2013/11/16/fscheck/"/>
+    <updated>2013-11-16T15:33:00+00:00</updated>
+    <id>http://simonhdickson.github.io/blog/2013/11/16/fscheck</id>
+    <content type="html"><![CDATA[<h2>Property based testing</h2>
+
+<p>So you might be first wondering what property based testing means. Simply put you describe properties of your functions, and then you bombard your code with data trying to prove or disprove these properties.</p>
+
+<p>Here&rsquo;s an example, let&rsquo;s say we have a function like this:</p>
+
+<p>``` fsharp Remove Negatives Function
+let removeNegatives list =</p>
+
+<pre><code>    let rec removeNegatives' list newList =
+        match list with
+        | [] -&gt; newList
+        | head :: tail when head &lt; 0 -&gt; removeNegatives' tail newList 
+        | head :: tail -&gt; removeNegatives' tail (head :: newList)
+    removeNegatives' list []
+</code></pre>
+
+<p>```
+And we want to say this function has the following three properties:</p>
+
+<ol>
+<li>If you pass in a list, it returns the list without any negative numbers in it.</li>
+<li>If you pass in a list without any negative numbers in it, you get exactly the same list back (this is implied from the first property, but let&rsquo;s make it explict anyway).</li>
+<li>The function will not re-order the elements.</li>
+</ol>
+
+
+<p>So, how do we go about testing these properties?</p>
+
+<h2>FsCheck to the rescue</h2>
+
+<p>FsCheck is an F# port of the Haskell framework QuickCheck. What it&rsquo;ll let us do is fire a whole bunch of data at our function with the aim of helping us ensure that these properties hold.</p>
+
+<p>Now before we get onto FsCheck itself, let&rsquo;s look at how we might test this traditionally. Normally using something like xUnit, you&rsquo;d have to write specific examples such as this:</p>
+
+<p><code>` fsharp Normal test
+[&lt;Fact&gt;]
+let</code>for a non-negative list, returns the same list`` () =</p>
+
+<pre><code>let list = [1;2;3]
+let result = list = removeNegatives list
+Assert.True result
+</code></pre>
+
+<p>```</p>
+
+<p>This does work, but it means you have to manually come up with a few examples of this, a few examples of the other ones. In this particular case the function is simple enough that this would find any bugs but in more complex functions there might be certain numbers that would break it.</p>
+
+<p>So using FsCheck we would instead might define this test like this:</p>
+
+<p><code>` fsharp FsCheck test
+[&lt;Property&gt;]
+let</code>for a non-negative list, returns the same list`` (list:NonNegativeInt list) =</p>
+
+<pre><code>let list = List.map (fun (i:NonNegativeInt) -&gt; i.Get) list
+list = removeNegatives list   
+</code></pre>
+
+<p>```</p>
+
+<p>The Property attribute works just like the Fact in xUnit or the Test in Nunit. There is one major difference however: the function no longer takes unit, it can take any parameter that FsCheck knows how to create (and yes, you can define them yourself). NonNegativeInt is a built in alias for int which is as the name suggests is a non-zero int.</p>
+
+<p>You may also have noticed that there are no asserts in this test either. That is because as long as your function returns something FsCheck understands (i.e. bool, exceptions, etc), FsCheck will work out whether the test failed or not that way. So in this case, so long as the final line resolves to true, then the test will be considered to have passed.</p>
+
+<p>There is actually one final thing to note here aswell, this test isn&rsquo;t excuted once. By default FsCheck will try to find 100 parameters that work and run the test that many times. You can change this number by setting the MaxSize like this:</p>
+
+<p><code>` fsharp FsCheck MaxSize
+[&lt;Property(MaxSize=1000)&gt;]
+let</code>my test`` () =</p>
+
+<pre><code>...
+</code></pre>
+
+<p>```</p>
+
+<p>Anyway, back the tests. If you try and run this test, you&rsquo;ll see that it fails. Oh noes! What could possibly be wrong?!?! Oh yes, have you noticed that the list is actually reversed during the process, which breaks one of our properties. So lets fix that.</p>
+
+<p>``` fsharp Remove Negatives Function V2
+let removeNegatives list =</p>
+
+<pre><code>    let rec removeNegatives' list newList =
+        match list with
+        | [] -&gt; List.rev newList
+        | head :: tail when head &lt; 0 -&gt; removeNegatives' tail newList 
+        | head :: tail -&gt; removeNegatives' tail (head :: newList)
+    removeNegatives' list []
+</code></pre>
+
+<p>```</p>
+
+<p>Ok, so now we have a test covering that second property: if you pass in a non-negative list, you get the same list back again.</p>
+
+<p>So now how about the first property, testing for the removal of elements less than zero. Well first we could write a test that checks that if you pass in a list of negative numbers, it should always return an empty list:</p>
+
+<p>``` fsharp</p>
+
+<pre><code>[&lt;Property&gt;]
+let ``for a negative list, returns an empty list`` (list:PositiveInt list) =
+    let list = List.map (fun (i:PositiveInt) -&gt; -1 * i.Get) list
+    [] = removeNegatives list   
+</code></pre>
+
+<p>```</p>
+
+<p>Ok great and that passes, maybe we should write a test that tests if it actually filters things out. Well that looks something like this:</p>
+
+<p>``` fsharp
+[<Property>]</p>
+
+<pre><code>let ``for a mixed list, returns a positive list`` (list:int list) =
+    let outputList = List.filter (fun i -&gt; i &gt;= 0) list
+    outputList = removeNegatives list  
+</code></pre>
+
+<p>```</p>
+
+<p>In this case, this test rather points out the uselessness of this function. Maybe that makes it quite a bad example, but I put it here for completeness anyway (after all it does implement the same function in a single line).</p>
+
+<h2>Side note</h2>
+
+<p>I probably should point out that I have had some problem with using FsCheck, if you have you&rsquo;re using NCrunch you might notice the tests don&rsquo;t get picked up. However, I have found that if you include the following code in your module it works:</p>
+
+<p><code>` fsharp
+[&lt;Fact&gt;]
+let</code>ignore this test`` () =</p>
+
+<pre><code>()
+</code></pre>
+
+<p>```</p>
+
+<p>This (for some reason) causes NCrunch to see all the other tests too.</p>
+]]></content>
+  </entry>
+  
+</feed>

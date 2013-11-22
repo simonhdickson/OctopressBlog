@@ -1,127 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE HTML>
-
-<html>
-
-<head>
-	<meta charset="utf-8">
-	<title>Simon's Blog</title>
-	<meta name="author" content="Simon Dickson">
-
-	
-	<meta name="description" content="Nov 22nd, 2013 Comments The Simon Says Monad What is a Monad? Everyone tries to explain monads in a simple way and makes it sound way more &hellip;">
-	
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<link href="/atom.xml" rel="alternate" title="Simon's Blog" type="application/atom+xml">
-	
-	<link rel="canonical" href="http://simonhdickson.github.io/">
-	<link href="/favicon.png" rel="shortcut icon">
-	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  <title><![CDATA[Simon's Blog]]></title>
+  <link href="http://simonhdickson.github.io/atom.xml" rel="self"/>
+  <link href="http://simonhdickson.github.io/"/>
+  <updated>2013-11-22T17:26:07+00:00</updated>
+  <id>http://simonhdickson.github.io/</id>
+  <author>
+    <name><![CDATA[Simon Dickson]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-</head>
-
-
-<body>
-	<div class="container">
-		<div class="left-col">
-			<div class="intrude-less">
-			<header id="header" class="inner"><div class="profilepic">
-	
-	<script src="/javascripts/md5.js"></script>
-	<script type="text/javascript">
-		$(function(){
-			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
-		});
-	</script>
-	
-</div>
-<hgroup>
-  <h1><a href="/">Simon's Blog</a></h1>
-  
-    <h2>Move along please</h2>
-  
-</hgroup>
-
-<nav id="main-nav"><ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-<nav id="sub-nav">
-	<div class="social">
-		
-		
-		
-		
-			<a class="twitter" href="http://twitter.com/simonhdickson" title="Twitter">Twitter</a>
-		
-		
-			<a class="github" href="https://github.com/simonhdickson" title="GitHub">GitHub</a>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
-		
-	</div>
-</nav>
-</header>				
-			</div>
-		</div>	
-		<div class="mid-col">
-			
-				
-			
-			<div class="mid-col-container">
-				<div id="content" class="inner">
-<div itemscope itemtype="http://schema.org/Blog">
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-22T15:56:00+00:00" data-updated="true" itemprop="datePublished">Nov 22<span>nd</span>, 2013</time></div>
-		<div class="tags">
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/11/22/the-simon-says-monad/#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/11/22/the-simon-says-monad/" itemprop="url">The Simon Says Monad</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h3>What is a Monad?</h3>
+  <entry>
+    <title type="html"><![CDATA[The Simon Says Monad]]></title>
+    <link href="http://simonhdickson.github.io/blog/2013/11/22/the-simon-says-monad/"/>
+    <updated>2013-11-22T15:56:00+00:00</updated>
+    <id>http://simonhdickson.github.io/blog/2013/11/22/the-simon-says-monad</id>
+    <content type="html"><![CDATA[<h3>What is a Monad?</h3>
 
 <p>Everyone tries to explain monads in a simple way and makes it sound way more complicated than it really is. Something is monadic if there are rule or set of rules that can define how a set of functions is combined into another function. That not strictly mathmatically true, but anything that fits that description could at least be described as monadic.</p>
 
@@ -184,43 +81,15 @@
 <h3>Maybe monad</h3>
 
 <p>If you know your monads, you may have already noticed that the &ldquo;Simon Says&rdquo; monad bears a slightly resemblance to the &ldquo;Maybe&rdquo; monad. Ok, it IS actually maybe monad. Infact you can find more information about the maybe monad <a href="http://en.wikibooks.org/wiki/F_Sharp_Programming/Computation_Expressions">here</a>.</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2013-11-16T15:33:00+00:00" data-updated="true" itemprop="datePublished">Nov 16<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/fsharp/'>FSharp</a>, <a class='category' href='/blog/categories/fscheck/'>FsCheck</a>, <a class='category' href='/blog/categories/testing/'>Testing</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/11/16/fscheck/#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/11/16/fscheck/" itemprop="url">FsCheck</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>Property based testing</h2>
+  <entry>
+    <title type="html"><![CDATA[FsCheck]]></title>
+    <link href="http://simonhdickson.github.io/blog/2013/11/16/fscheck/"/>
+    <updated>2013-11-16T15:33:00+00:00</updated>
+    <id>http://simonhdickson.github.io/blog/2013/11/16/fscheck</id>
+    <content type="html"><![CDATA[<h2>Property based testing</h2>
 
 <p>So you might be first wondering what property based testing means. Simply put you describe properties of your functions, and then you bombard your code with data trying to prove or disprove these properties.</p>
 
@@ -366,62 +235,7 @@
 
 
 <p>This (for some reason) causes NCrunch to see all the other tests too.</p>
-
-		
-		
-	</div>
-
-</article>
-
-</div>
-<nav id="pagenavi">
-    
-    
-    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
-</nav></div>
-			</div>
-			<footer id="footer" class="inner"><p>
-  Copyright &copy; 2013 - Simon Dickson -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
-			
-
-<script type="text/javascript">
-      var disqus_shortname = 'simondicksonblog';
-      
-        
-        var disqus_script = 'count.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = '//platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-		</div>
-	</div>
-</body>
-</html>
+]]></content>
+  </entry>
+  
+</feed>

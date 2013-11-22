@@ -1,0 +1,233 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>The Simon Says Monad - Simon's Blog</title>
+	<meta name="author" content="Simon Dickson">
+
+	
+	<meta name="description" content="The Simon Says Monad What is a Monad? Everyone tries to explain monads in a simple way and makes it sound way more complicated than it really is. &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Simon's Blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://simonhdickson.github.io/blog/2013/11/22/the-simon-says-monad/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+<hgroup>
+  <h1><a href="/">Simon's Blog</a></h1>
+  
+    <h2>Move along please</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+			<a class="twitter" href="http://twitter.com/simonhdickson" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/simonhdickson" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">The Simon Says Monad</h1>
+	<div class="entry-content" itemprop="articleBody"><h3>What is a Monad?</h3>
+
+<p>Everyone tries to explain monads in a simple way and makes it sound way more complicated than it really is. Something is monadic if there are rule or set of rules that can define how a set of functions is combined into another function. That not strictly mathmatically true, but anything that fits that description could at least be described as monadic.</p>
+
+<p>You might be reading that and thinking &ldquo;surely everything is monadic?&rdquo;, well yes, almost everything is kind of monadic (or can be described in that way).</p>
+
+<h3>The Simon Says Monad</h3>
+
+<p>May I present the single most useful monad in the world!</p>
+
+<figure class='code'><figcaption><span>Simon Says</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="k">let</span> <span class="n">doIt</span> <span class="n">this</span> <span class="n">that</span> <span class="o">=</span>
+</span><span class='line'>    <span class="n">simonSays</span><span class="o">{</span>
+</span><span class='line'>        <span class="k">let</span><span class="o">!</span> <span class="n">i</span> <span class="o">=</span> <span class="n">this</span>
+</span><span class='line'>        <span class="k">let</span><span class="o">!</span> <span class="n">j</span> <span class="o">=</span> <span class="n">that</span>
+</span><span class='line'>        <span class="n">printfn</span> <span class="s2">&quot;%i&quot;</span> <span class="o">&lt;|</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span>
+</span><span class='line'>    <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So, the way I see it, when you declare simonSays { &hellip; }; you&rsquo;re basically saying &ldquo;we don&rsquo;t play by normal rules: now we play by simonSays rules.&rdquo; What this means is, if you don&rsquo;t say &ldquo;Simon Says&rdquo;, then you don&rsquo;t do anything. So for example, if we invoke it like this:</p>
+
+<figure class='code'><figcaption><span>Simon Says 1 + 1</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="n">doIt</span> <span class="o">(</span><span class="nc">SimonSays</span> <span class="mi">1</span><span class="o">)</span> <span class="o">(</span><span class="nc">SimonSays</span> <span class="mi">1</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then the result is SimonSays 2. However if we do:</p>
+
+<figure class='code'><figcaption><span>Simon Says 1 + SimonDidntSay</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="n">doIt</span> <span class="o">(</span><span class="nc">SimonSays</span> <span class="mi">1</span><span class="o">)</span> <span class="nc">SimonDidntSay</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The the result is SimonDidntSay. To go back to the definition of monads earlier, &ldquo;Something is monadic if there are rule or set of rules that can define how a set of functions is combined into another function&rdquo;. In the Simon Says monad, there is a single very simple rule: you must say &ldquo;Simon Says&rdquo;, otherwise we don&rsquo;t do anything. If we re-write this code slightly to remove all the F# sugar, it become far more obvious what is happening here.</p>
+
+<figure class='code'><figcaption><span>Simon Says using matches</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="k">let</span> <span class="n">doIt</span> <span class="n">this</span> <span class="n">that</span> <span class="o">=</span>
+</span><span class='line'>    <span class="k">match</span> <span class="n">this</span> <span class="k">with</span>
+</span><span class='line'>    <span class="o">|</span> <span class="nc">SimonSays</span> <span class="n">i</span> <span class="o">-&gt;</span>
+</span><span class='line'>        <span class="k">match</span> <span class="n">that</span> <span class="k">with</span>
+</span><span class='line'>        <span class="o">|</span> <span class="nc">SimonSays</span> <span class="n">j</span> <span class="o">-&gt;</span> <span class="n">printfn</span> <span class="s2">&quot;%i&quot;</span> <span class="o">&lt;|</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span>
+</span><span class='line'>        <span class="o">|</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="bp">()</span>
+</span><span class='line'>    <span class="o">|</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="bp">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you build up a large chain of these things, then writing all this would get cumbersome.</p>
+
+<h3>Maybe monad</h3>
+
+<p>If you know your monads, you may have already noticed that the &ldquo;Simon Says&rdquo; monad bears a slightly resemblance to the &ldquo;Maybe&rdquo; monad. Ok, it IS actually maybe monad. Infact you can find more information about the maybe monad <a href="http://en.wikibooks.org/wiki/F_Sharp_Programming/Computation_Expressions">here</a>.</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - Simon Dickson -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'simondicksonblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://simonhdickson.github.io/blog/2013/11/22/the-simon-says-monad/';
+        var disqus_url = 'http://simonhdickson.github.io/blog/2013/11/22/the-simon-says-monad/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>
