@@ -9,7 +9,7 @@
 	<meta name="author" content="Simon Dickson">
 
 	
-	<meta name="description" content="Nov 22nd, 2013 Comments The Simon Says Monad What is a Monad? Everyone tries to explain monads in a simple way and makes it sound way more &hellip;">
+	<meta name="description" content="Nov 24th, 2013 fsharp, holy wars, programming Comments Tabs vs Spaces Spaces, the final frontier Tabs vs Spaces: the greatest of all the holy wars. &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -95,6 +95,60 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-24T22:05:00+00:00" data-updated="true" itemprop="datePublished">Nov 24<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/fsharp/'>fsharp</a>, <a class='category' href='/blog/categories/holy-wars/'>holy wars</a>, <a class='category' href='/blog/categories/programming/'>programming</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/11/24/tabs-vs-spaces/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/24/tabs-vs-spaces/" itemprop="url">Tabs vs Spaces</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h3>Spaces, the final frontier</h3>
+
+<p>Tabs vs Spaces: the greatest of all the holy wars. Well it turns out that in F# there is no need for that debate: because in F# tabs are treated as an error by the compiler.</p>
+
+<figure class='code'><figcaption><span>Tabs treated as error</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="k">let</span> <span class="n">spaceFun</span> <span class="n">x</span> <span class="o">=</span>
+</span><span class='line'>  <span class="n">x</span> <span class="c1">// ok</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">let</span> <span class="n">tabFun</span> <span class="n">x</span> <span class="o">=</span>
+</span><span class='line'>  <span class="n">x</span> <span class="c1">// error!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now if only there was an option for the F# compiler to treat nulls as errors too&hellip;</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">

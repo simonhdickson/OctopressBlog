@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: fsharp | Simon's Blog]]></title>
-  <link href="http://simonhdickson.github.io/blog/categories/fsharp/atom.xml" rel="self"/>
+  <title><![CDATA[Category: holy wars | Simon's Blog]]></title>
+  <link href="http://simonhdickson.github.io/blog/categories/holy-wars/atom.xml" rel="self"/>
   <link href="http://simonhdickson.github.io/"/>
   <updated>2013-11-24T22:48:53+00:00</updated>
   <id>http://simonhdickson.github.io/</id>

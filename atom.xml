@@ -4,7 +4,7 @@
   <title><![CDATA[Simon's Blog]]></title>
   <link href="http://simonhdickson.github.io/atom.xml" rel="self"/>
   <link href="http://simonhdickson.github.io/"/>
-  <updated>2013-11-22T17:39:22+00:00</updated>
+  <updated>2013-11-24T22:48:53+00:00</updated>
   <id>http://simonhdickson.github.io/</id>
   <author>
     <name><![CDATA[Simon Dickson]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Tabs vs Spaces]]></title>
+    <link href="http://simonhdickson.github.io/blog/2013/11/24/tabs-vs-spaces/"/>
+    <updated>2013-11-24T22:05:00+00:00</updated>
+    <id>http://simonhdickson.github.io/blog/2013/11/24/tabs-vs-spaces</id>
+    <content type="html"><![CDATA[<h3>Spaces, the final frontier</h3>
+
+<p>Tabs vs Spaces: the greatest of all the holy wars. Well it turns out that in F# there is no need for that debate: because in F# tabs are treated as an error by the compiler.</p>
+
+<figure class='code'><figcaption><span>Tabs treated as error</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="k">let</span> <span class="n">spaceFun</span> <span class="n">x</span> <span class="o">=</span>
+</span><span class='line'>  <span class="n">x</span> <span class="c1">// ok</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">let</span> <span class="n">tabFun</span> <span class="n">x</span> <span class="o">=</span>
+</span><span class='line'>  <span class="n">x</span> <span class="c1">// error!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now if only there was an option for the F# compiler to treat nulls as errors too&hellip;</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Simon Says Monad]]></title>
