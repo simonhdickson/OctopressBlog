@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: owin | Simon's Blog]]></title>
+  <link href="http://simonhdickson.github.io/blog/categories/owin/atom.xml" rel="self"/>
+  <link href="http://simonhdickson.github.io/"/>
+  <updated>2013-12-05T23:25:38+00:00</updated>
+  <id>http://simonhdickson.github.io/</id>
+  <author>
+    <name><![CDATA[Simon Dickson]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Owin: The Myth, the Monad]]></title>
+    <link href="http://simonhdickson.github.io/blog/2013/12/03/owin-the-myth/"/>
+    <updated>2013-12-03T20:37:00+00:00</updated>
+    <id>http://simonhdickson.github.io/blog/2013/12/03/owin-the-myth</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve played with owin in F# <a href="https://github.com/simonhdickson/Bar">before</a> and recently have been playing with computational builders. So I thought the other day, how about combining them both so you can write something long the lines of this:</p>
+
+<p>``` fsharp Owin Monad
+let pipeline =</p>
+
+<pre><code>owin {
+    get "/" &lt;@ fun () -&gt; "Hello World" @&gt;
+}
+</code></pre>
+
+<p>```</p>
+
+<p>Gotta love that syntactic sugar, so how do we do this? Well really, the owin monad is actually really simple to implement. You have a state, in this case the state is the is the IAppBuilder. So for posterity let&rsquo;s just steal the important bits of the state monad from FSharpx and use that. So let&rsquo;s skip to the good bit:</p>
+
+<p>``` fsharp OwinBuilder
+ type OwinBuilder() =</p>
+
+<pre><code>// omitted
+[&lt;CustomOperation("get", MaintainsVariableSpaceUsingBind=true)&gt;]
+member this.Get(m, url, processor) =
+    this.Bind(m, fun a -&gt;
+        this.Bind(getState, fun (app:IAppBuilder) -&gt;
+            putState &lt;| app.UseRequestProcessor("GET", url, processor)))
+</code></pre>
+
+<p>```</p>
+
+<p>In a computation expression there is a <a href="http://msdn.microsoft.com/en-us/library/dd233182.aspx">standard workflow</a> for operations that you can use (this includes the Bind operation). In our case we don&rsquo;t actually want this, we want to define our own operators (for get, post, etc). The CustomOperation attribute allows you to define a these, and also describe how your custom operator works.</p>
+
+<p>In this case we want to define our operator so that each line defines a new endpoint of our web api, and pass all the state around in the background. To do this the &ldquo;MaintainsVariableSpaceUsingBind&rdquo;, works to bind all the statements together. In the above code any previous operators will be passed in the m paramter, and then the we&rsquo;re basically appending our new owin endpoint to end of that, which will then be passed into the next operator, etc.</p>
+
+<p>Anyway, here is a <a href="https://github.com/simonhdickson/OwinBuilder">link to the repository</a>, if you&rsquo;re interested in looking into it further.</p>
+]]></content>
+  </entry>
+  
+</feed>

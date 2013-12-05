@@ -9,7 +9,7 @@
 	<meta name="author" content="Simon Dickson">
 
 	
-	<meta name="description" content="Nov 24th, 2013 fsharp, holy wars, programming Comments Tabs vs Spaces Spaces, the final frontier Tabs vs Spaces: the greatest of all the holy wars. &hellip;">
+	<meta name="description" content="Dec 3rd, 2013 fsharp, monad, owin Comments Owin: The Myth, the Monad I&rsquo;ve played with owin in F# before and recently have been playing with &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -111,6 +111,79 @@
   
 
 
+<time datetime="2013-12-03T20:37:00+00:00" data-updated="true" itemprop="datePublished">Dec 3<span>rd</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/fsharp/'>fsharp</a>, <a class='category' href='/blog/categories/monad/'>monad</a>, <a class='category' href='/blog/categories/owin/'>owin</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/12/03/owin-the-myth/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/12/03/owin-the-myth/" itemprop="url">Owin: The Myth, the Monad</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>I&rsquo;ve played with owin in F# <a href="https://github.com/simonhdickson/Bar">before</a> and recently have been playing with computational builders. So I thought the other day, how about combining them both so you can write something long the lines of this:</p>
+
+<figure class='code'><figcaption><span>Owin Monad</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="k">let</span> <span class="n">pipeline</span> <span class="o">=</span>
+</span><span class='line'>    <span class="n">owin</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/&quot;</span> <span class="o">&lt;@</span> <span class="k">fun</span> <span class="bp">()</span> <span class="o">-&gt;</span> <span class="s2">&quot;Hello World&quot;</span> <span class="o">@&gt;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Gotta love that syntactic sugar, so how do we do this? Well really, the owin monad is actually really simple to implement. You have a state, in this case the state is the is the IAppBuilder. So for posterity let&rsquo;s just steal the important bits of the state monad from FSharpx and use that. So let&rsquo;s skip to the good bit:</p>
+
+<figure class='code'><figcaption><span>OwinBuilder</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'> <span class="k">type</span> <span class="nc">OwinBuilder</span><span class="bp">()</span> <span class="o">=</span>
+</span><span class='line'>    <span class="c1">// omitted</span>
+</span><span class='line'>    <span class="o">[&lt;</span><span class="nc">CustomOperation</span><span class="o">(</span><span class="s2">&quot;get&quot;</span><span class="o">,</span> <span class="nc">MaintainsVariableSpaceUsingBind</span><span class="o">=</span><span class="bp">true</span><span class="o">)&gt;]</span>
+</span><span class='line'>    <span class="k">member</span> <span class="n">this</span><span class="o">.</span><span class="nc">Get</span><span class="o">(</span><span class="n">m</span><span class="o">,</span> <span class="n">url</span><span class="o">,</span> <span class="n">processor</span><span class="o">)</span> <span class="o">=</span>
+</span><span class='line'>        <span class="n">this</span><span class="o">.</span><span class="nc">Bind</span><span class="o">(</span><span class="n">m</span><span class="o">,</span> <span class="k">fun</span> <span class="n">a</span> <span class="o">-&gt;</span>
+</span><span class='line'>            <span class="n">this</span><span class="o">.</span><span class="nc">Bind</span><span class="o">(</span><span class="n">getState</span><span class="o">,</span> <span class="k">fun</span> <span class="o">(</span><span class="n">app</span><span class="o">:</span><span class="nc">IAppBuilder</span><span class="o">)</span> <span class="o">-&gt;</span>
+</span><span class='line'>                <span class="n">putState</span> <span class="o">&lt;|</span> <span class="n">app</span><span class="o">.</span><span class="nc">UseRequestProcessor</span><span class="o">(</span><span class="s2">&quot;GET&quot;</span><span class="o">,</span> <span class="n">url</span><span class="o">,</span> <span class="n">processor</span><span class="o">)))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In a computation expression there is a <a href="http://msdn.microsoft.com/en-us/library/dd233182.aspx">standard workflow</a> for operations that you can use (this includes the Bind operation). In our case we don&rsquo;t actually want this, we want to define our own operators (for get, post, etc). The CustomOperation attribute allows you to define a these, and also describe how your custom operator works.</p>
+
+<p>In this case we want to define our operator so that each line defines a new endpoint of our web api, and pass all the state around in the background. To do this the &ldquo;MaintainsVariableSpaceUsingBind&rdquo;, works to bind all the statements together. In the above code any previous operators will be passed in the m paramter, and then the we&rsquo;re basically appending our new owin endpoint to end of that, which will then be passed into the next operator, etc.</p>
+
+<p>Anyway, here is a <a href="https://github.com/simonhdickson/OwinBuilder">link to the repository</a>, if you&rsquo;re interested in looking into it further.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2013-11-24T22:05:00+00:00" data-updated="true" itemprop="datePublished">Nov 24<span>th</span>, 2013</time></div>
 		<div class="tags">
 
@@ -167,6 +240,10 @@
 
 <time datetime="2013-11-22T15:56:00+00:00" data-updated="true" itemprop="datePublished">Nov 22<span>nd</span>, 2013</time></div>
 		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/fsharp/'>fsharp</a>, <a class='category' href='/blog/categories/functional/'>functional</a>, <a class='category' href='/blog/categories/monad/'>monad</a>
+
 
 </div>
 		
@@ -264,7 +341,7 @@
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/fsharp/'>FSharp</a>, <a class='category' href='/blog/categories/fscheck/'>FsCheck</a>, <a class='category' href='/blog/categories/testing/'>Testing</a>
+	<a class='category' href='/blog/categories/fscheck/'>fscheck</a>, <a class='category' href='/blog/categories/fsharp/'>fsharp</a>, <a class='category' href='/blog/categories/testing/'>testing</a>
 
 
 </div>
