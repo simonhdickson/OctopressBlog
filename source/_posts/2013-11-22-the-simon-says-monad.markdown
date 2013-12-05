@@ -3,7 +3,7 @@ layout: post
 title: "The Simon Says Monad"
 date: 2013-11-22 15:56
 comments: true
-categories: 
+categories: [functional,fsharp,monad]
 ---
 ### What is a Monad?
 Everyone tries to explain monads in a simple way and makes it sound way more complicated than it really is. Something is monadic if there are rule or set of rules that can define how a set of functions is combined into another function. That not strictly mathmatically true, but anything that fits that description could at least be described as monadic.

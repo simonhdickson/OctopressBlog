@@ -3,7 +3,7 @@ layout: post
 title: "FsCheck"
 date: 2013-11-16 15:33
 comments: true
-categories: [FSharp,FsCheck,Testing]
+categories: [fsharp,fscheck,testing]
 ---
 ## Property based testing
 So you might be first wondering what property based testing means. Simply put you describe properties of your functions, and then you bombard your code with data trying to prove or disprove these properties.
