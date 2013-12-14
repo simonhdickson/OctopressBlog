@@ -4,7 +4,7 @@
   <title><![CDATA[Category: fsharp | Simon's Blog]]></title>
   <link href="http://simonhdickson.github.io/blog/categories/fsharp/atom.xml" rel="self"/>
   <link href="http://simonhdickson.github.io/"/>
-  <updated>2013-12-08T22:45:57+00:00</updated>
+  <updated>2013-12-14T10:02:41+00:00</updated>
   <id>http://simonhdickson.github.io/</id>
   <author>
     <name><![CDATA[Simon Dickson]]></name>
@@ -12,6 +12,74 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Nancy + F# = Fancy]]></title>
+    <link href="http://simonhdickson.github.io/blog/2013/12/14/nancy-plus-fsharp/"/>
+    <updated>2013-12-14T10:00:00+00:00</updated>
+    <id>http://simonhdickson.github.io/blog/2013/12/14/nancy-plus-fsharp</id>
+    <content type="html"><![CDATA[<p>Last week I made the <a href="blog/2013/12/03/owin-the-myth">owin monad</a>, and when I showed it to <a href="https://twitter.com/nbevans">@nbevans</a> he suggested making it work with nancy.</p>
+
+<p>So I did.</p>
+
+<p>Let me introduce Fancy:</p>
+
+<p>``` fsharp
+let pipeline =</p>
+
+<pre><code>nancy {
+    get "/" (fun () -&gt; sprintf "Hello World!")
+    get "/%s" (fun name -&gt; sprintf "Hello %s!" name) 
+    get "/square/%i" (fun number -&gt; sprintf "%i" &lt;| number * number) 
+}
+</code></pre>
+
+<p>```</p>
+
+<p>I won&rsquo;t dig too heavily into the code at this moment, it is quite ugly and hacky in places. It is also obviously not production ready. However, the nice thing about this is that it is fully typed, i.e:</p>
+
+<p>``` fsharp
+let pipeline =</p>
+
+<pre><code>nancy {
+    get "/%s" (fun name -&gt; sprintf "%s" name)       // Works
+    get "/%s" (fun (name:int) -&gt; sprintf "%s" name) // Compiler error!
+    get "/%i" (fun name -&gt; sprintf "%s" name)       // Compiler error!
+    get "/%s" (fun name -&gt; sprintf "%i" name)       // Compiler error!
+}
+</code></pre>
+
+<p>```</p>
+
+<p>Now if you know your nancy, you&rsquo;ll know that nancy doesn&rsquo;t expect the format &ldquo;/%s&rdquo; or &ldquo;/%i&rdquo;; it expects the format &ldquo;/{name}&rdquo; or &ldquo;/{number:int}&rdquo;. And you probably also know that all normally StringFormat functions in F# take type parameters, rather than a function of those types.</p>
+
+<p>Well what happens is we&rsquo;re only using StringFormat for static type checking, we&rsquo;re not actually using StringFormat here quite as it was intended.</p>
+
+<p>```fsharp
+member this.Get(m, url:StringFormat&lt;&lsquo;a->'b,'c>, processor:'a->'b) =</p>
+
+<pre><code>// ommitted
+</code></pre>
+
+<p>```</p>
+
+<p>These type constraints do that. There is actually a slight error, with the above code, but I&rsquo;m reasonably certain it can be converted into a feature. You see you are required to have the correct parameters in the correct order, but extra paramters are allowed.</p>
+
+<p>```fsharp
+let pipeline =</p>
+
+<pre><code>nancy {
+    get "/%s" (fun name (other:int) -&gt; sprintf "%s" name)       // Compiles
+}
+</code></pre>
+
+<p>```</p>
+
+<p>Currently this will cause the code to fail, however it is quite possible we can use that to implement a convention based system for passing extra things like headers, parameters, etc.</p>
+
+<p>Anyway here is a <a href="https://github.com/simonhdickson/Fancy">link to the repo</a>, feel free to grab the code and have a play!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Owin: The Myth, the Monad]]></title>

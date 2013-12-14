@@ -4,7 +4,7 @@
   <title><![CDATA[Simon's Blog]]></title>
   <link href="http://simonhdickson.github.io/atom.xml" rel="self"/>
   <link href="http://simonhdickson.github.io/"/>
-  <updated>2013-12-08T22:45:57+00:00</updated>
+  <updated>2013-12-14T10:02:41+00:00</updated>
   <id>http://simonhdickson.github.io/</id>
   <author>
     <name><![CDATA[Simon Dickson]]></name>
@@ -12,6 +12,81 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Nancy + F# = Fancy]]></title>
+    <link href="http://simonhdickson.github.io/blog/2013/12/14/nancy-plus-fsharp/"/>
+    <updated>2013-12-14T10:00:00+00:00</updated>
+    <id>http://simonhdickson.github.io/blog/2013/12/14/nancy-plus-fsharp</id>
+    <content type="html"><![CDATA[<p>Last week I made the <a href="blog/2013/12/03/owin-the-myth">owin monad</a>, and when I showed it to <a href="https://twitter.com/nbevans">@nbevans</a> he suggested making it work with nancy.</p>
+
+<p>So I did.</p>
+
+<p>Let me introduce Fancy:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="k">let</span> <span class="n">pipeline</span> <span class="o">=</span>
+</span><span class='line'>    <span class="n">nancy</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/&quot;</span> <span class="o">(</span><span class="k">fun</span> <span class="bp">()</span> <span class="o">-&gt;</span> <span class="n">sprintf</span> <span class="s2">&quot;Hello World!&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/%s&quot;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">name</span> <span class="o">-&gt;</span> <span class="n">sprintf</span> <span class="s2">&quot;Hello %s!&quot;</span> <span class="n">name</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/square/%i&quot;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">number</span> <span class="o">-&gt;</span> <span class="n">sprintf</span> <span class="s2">&quot;%i&quot;</span> <span class="o">&lt;|</span> <span class="n">number</span> <span class="o">*</span> <span class="n">number</span><span class="o">)</span>
+</span><span class='line'>    <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I won&rsquo;t dig too heavily into the code at this moment, it is quite ugly and hacky in places. It is also obviously not production ready. However, the nice thing about this is that it is fully typed, i.e:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="k">let</span> <span class="n">pipeline</span> <span class="o">=</span>
+</span><span class='line'>    <span class="n">nancy</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/%s&quot;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">name</span> <span class="o">-&gt;</span> <span class="n">sprintf</span> <span class="s2">&quot;%s&quot;</span> <span class="n">name</span><span class="o">)</span>       <span class="c1">// Works</span>
+</span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/%s&quot;</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(</span><span class="n">name</span><span class="o">:</span><span class="kt">int</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">sprintf</span> <span class="s2">&quot;%s&quot;</span> <span class="n">name</span><span class="o">)</span> <span class="c1">// Compiler error!</span>
+</span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/%i&quot;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">name</span> <span class="o">-&gt;</span> <span class="n">sprintf</span> <span class="s2">&quot;%s&quot;</span> <span class="n">name</span><span class="o">)</span>       <span class="c1">// Compiler error!</span>
+</span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/%s&quot;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">name</span> <span class="o">-&gt;</span> <span class="n">sprintf</span> <span class="s2">&quot;%i&quot;</span> <span class="n">name</span><span class="o">)</span>       <span class="c1">// Compiler error!</span>
+</span><span class='line'>    <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now if you know your nancy, you&rsquo;ll know that nancy doesn&rsquo;t expect the format &ldquo;/%s&rdquo; or &ldquo;/%i&rdquo;; it expects the format &ldquo;/{name}&rdquo; or &ldquo;/{number:int}&rdquo;. And you probably also know that all normally StringFormat functions in F# take type parameters, rather than a function of those types.</p>
+
+<p>Well what happens is we&rsquo;re only using StringFormat for static type checking, we&rsquo;re not actually using StringFormat here quite as it was intended.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="k">member</span> <span class="n">this</span><span class="o">.</span><span class="nc">Get</span><span class="o">(</span><span class="n">m</span><span class="o">,</span> <span class="n">url</span><span class="o">:</span><span class="nc">StringFormat</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">-&gt;</span><span class="k">&#39;</span><span class="n">b</span><span class="o">,</span><span class="k">&#39;</span><span class="n">c</span><span class="o">&gt;,</span> <span class="n">processor</span><span class="o">:</span><span class="k">&#39;</span><span class="n">a</span><span class="o">-&gt;</span><span class="k">&#39;</span><span class="n">b</span><span class="o">)</span> <span class="o">=</span>
+</span><span class='line'>    <span class="c1">// ommitted</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>These type constraints do that. There is actually a slight error, with the above code, but I&rsquo;m reasonably certain it can be converted into a feature. You see you are required to have the correct parameters in the correct order, but extra paramters are allowed.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="k">let</span> <span class="n">pipeline</span> <span class="o">=</span>
+</span><span class='line'>    <span class="n">nancy</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/%s&quot;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">name</span> <span class="o">(</span><span class="n">other</span><span class="o">:</span><span class="kt">int</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">sprintf</span> <span class="s2">&quot;%s&quot;</span> <span class="n">name</span><span class="o">)</span>       <span class="c1">// Compiles</span>
+</span><span class='line'>    <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Currently this will cause the code to fail, however it is quite possible we can use that to implement a convention based system for passing extra things like headers, parameters, etc.</p>
+
+<p>Anyway here is a <a href="https://github.com/simonhdickson/Fancy">link to the repo</a>, feel free to grab the code and have a play!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Owin: The Myth, the Monad]]></title>
