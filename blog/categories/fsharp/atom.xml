@@ -4,7 +4,7 @@
   <title><![CDATA[Category: fsharp | Simon's Blog]]></title>
   <link href="http://simonhdickson.github.io/blog/categories/fsharp/atom.xml" rel="self"/>
   <link href="http://simonhdickson.github.io/"/>
-  <updated>2013-12-14T10:02:41+00:00</updated>
+  <updated>2013-12-14T10:05:51+00:00</updated>
   <id>http://simonhdickson.github.io/</id>
   <author>
     <name><![CDATA[Simon Dickson]]></name>
@@ -27,7 +27,7 @@
 <p>``` fsharp
 let pipeline =</p>
 
-<pre><code>nancy {
+<pre><code>fancy {
     get "/" (fun () -&gt; sprintf "Hello World!")
     get "/%s" (fun name -&gt; sprintf "Hello %s!" name) 
     get "/square/%i" (fun number -&gt; sprintf "%i" &lt;| number * number) 
@@ -41,7 +41,7 @@ let pipeline =</p>
 <p>``` fsharp
 let pipeline =</p>
 
-<pre><code>nancy {
+<pre><code>fancy {
     get "/%s" (fun name -&gt; sprintf "%s" name)       // Works
     get "/%s" (fun (name:int) -&gt; sprintf "%s" name) // Compiler error!
     get "/%i" (fun name -&gt; sprintf "%s" name)       // Compiler error!
@@ -68,7 +68,7 @@ member this.Get(m, url:StringFormat&lt;&lsquo;a->'b,'c>, processor:'a->'b) =</p>
 <p>```fsharp
 let pipeline =</p>
 
-<pre><code>nancy {
+<pre><code>fancy {
     get "/%s" (fun name (other:int) -&gt; sprintf "%s" name)       // Compiles
 }
 </code></pre>

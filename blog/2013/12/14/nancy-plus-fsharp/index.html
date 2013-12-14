@@ -120,7 +120,7 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="k">let</span> <span class="n">pipeline</span> <span class="o">=</span>
-</span><span class='line'>    <span class="n">nancy</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">fancy</span> <span class="o">{</span>
 </span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/&quot;</span> <span class="o">(</span><span class="k">fun</span> <span class="bp">()</span> <span class="o">-&gt;</span> <span class="n">sprintf</span> <span class="s2">&quot;Hello World!&quot;</span><span class="o">)</span>
 </span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/%s&quot;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">name</span> <span class="o">-&gt;</span> <span class="n">sprintf</span> <span class="s2">&quot;Hello %s!&quot;</span> <span class="n">name</span><span class="o">)</span>
 </span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/square/%i&quot;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">number</span> <span class="o">-&gt;</span> <span class="n">sprintf</span> <span class="s2">&quot;%i&quot;</span> <span class="o">&lt;|</span> <span class="n">number</span> <span class="o">*</span> <span class="n">number</span><span class="o">)</span>
@@ -138,7 +138,7 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="k">let</span> <span class="n">pipeline</span> <span class="o">=</span>
-</span><span class='line'>    <span class="n">nancy</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">fancy</span> <span class="o">{</span>
 </span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/%s&quot;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">name</span> <span class="o">-&gt;</span> <span class="n">sprintf</span> <span class="s2">&quot;%s&quot;</span> <span class="n">name</span><span class="o">)</span>       <span class="c1">// Works</span>
 </span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/%s&quot;</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(</span><span class="n">name</span><span class="o">:</span><span class="kt">int</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">sprintf</span> <span class="s2">&quot;%s&quot;</span> <span class="n">name</span><span class="o">)</span> <span class="c1">// Compiler error!</span>
 </span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/%i&quot;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">name</span> <span class="o">-&gt;</span> <span class="n">sprintf</span> <span class="s2">&quot;%s&quot;</span> <span class="n">name</span><span class="o">)</span>       <span class="c1">// Compiler error!</span>
@@ -165,7 +165,7 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='fsharp'><span class='line'><span class="k">let</span> <span class="n">pipeline</span> <span class="o">=</span>
-</span><span class='line'>    <span class="n">nancy</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">fancy</span> <span class="o">{</span>
 </span><span class='line'>        <span class="n">get</span> <span class="s2">&quot;/%s&quot;</span> <span class="o">(</span><span class="k">fun</span> <span class="n">name</span> <span class="o">(</span><span class="n">other</span><span class="o">:</span><span class="kt">int</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">sprintf</span> <span class="s2">&quot;%s&quot;</span> <span class="n">name</span><span class="o">)</span>       <span class="c1">// Compiles</span>
 </span><span class='line'>    <span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
