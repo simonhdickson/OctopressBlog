@@ -3,7 +3,7 @@ layout: post
 title: "Nancy + F# = Fancy"
 date: 2013-12-14 10:00
 comments: true
-categories: [fsharp,fancy,]
+categories: [fsharp,fancy,nancy]
 ---
 Last week I made the [owin monad](blog/2013/12/03/owin-the-myth), and when I showed it to [@nbevans](https://twitter.com/nbevans) he suggested making it work with nancy.
 
@@ -13,7 +13,7 @@ Let me introduce Fancy:
 
 ``` fsharp
 let pipeline =
-    nancy {
+    fancy {
         get "/" (fun () -> sprintf "Hello World!")
         get "/%s" (fun name -> sprintf "Hello %s!" name) 
         get "/square/%i" (fun number -> sprintf "%i" <| number * number) 
@@ -24,7 +24,7 @@ I won't dig too heavily into the code at this moment, it is quite ugly and hacky
 
 ``` fsharp
 let pipeline =
-    nancy {
+    fancy {
         get "/%s" (fun name -> sprintf "%s" name)       // Works
         get "/%s" (fun (name:int) -> sprintf "%s" name) // Compiler error!
         get "/%i" (fun name -> sprintf "%s" name)       // Compiler error!
@@ -45,7 +45,7 @@ These type constraints do that. There is actually a slight error, with the above
 
 ```fsharp
 let pipeline =
-    nancy {
+    fancy {
         get "/%s" (fun name (other:int) -> sprintf "%s" name)       // Compiles
     }
 ```
