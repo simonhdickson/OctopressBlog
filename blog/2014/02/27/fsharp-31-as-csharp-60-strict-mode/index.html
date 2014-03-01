@@ -5,11 +5,11 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Category: holy wars - Simon's Blog</title>
+	<title>F# 3.1 as C# 6.0 Strict Mode - Simon's Blog</title>
 	<meta name="author" content="Simon Dickson">
 
 	
-	<meta name="description" content="Category: holy wars">
+	<meta name="description" content="F# 3.1 as C# 6.0 Strict Mode I was reading the (probable) new features of C# 6.0, and I can&rsquo;t help but feel like C# wants to just be F# at &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@
 
 	<link href="/atom.xml" rel="alternate" title="Simon's Blog" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://simonhdickson.github.ioblog/categories/holy-wars/">
+	<link rel="canonical" href="http://simonhdickson.github.io/blog/2014/02/27/fsharp-31-as-csharp-60-strict-mode/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -105,32 +105,40 @@
 				
 			
 			<div class="mid-col-container">
-				<div id="content" class="inner">
-	
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">F# 3.1 as C# 6.0 Strict Mode</h1>
+	<div class="entry-content" itemprop="articleBody"><p>I was reading the (probable) new features of <a href="http://damieng.com/blog/2013/12/09/probable-c-6-0-features-illustrated">C# 6.0</a>, and I can&rsquo;t help but feel like C# wants to just be F# at this point but just doesn&rsquo;t want to alienate its fans.</p>
 
+<p>If imitation really is the sincerest form of flattery, then Don Syme must be very flattered by C# these days. Almost every version since 3.5 has just been implementing half assed versions things of F# already had (tuples, async and tasks I&rsquo;m looking at you), and now with 6.0 it&rsquo;s getting even worse.</p>
 
-	
-	
-	<section class="archives"><h1 class="year">2013</h1>
+<p>The truth is that C# is turning into the new Java, a language that is afraid to change anything for fear of attacks from the Enterprise shops.</p>
 
-<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<span class="date"><time datetime="2013-11-24T22:05:00+00:00" itemprop="datePublished">Nov 24</time></span>
-		<br>
-		<span class="tags">
+<p>Don&rsquo;t fear however, because I have a solution that will solve both problems: re-name F# 3.1 to C# 6.0 strict mode, and have C# 5.0 as C# 6.0 quirks mode. The enterpise shops will be happy because nothing will have changed (and they love that). All the non-enteripse devs will marvel at all the amazing new features that have been introduced to this &ldquo;C# 6.0 strict mode&rdquo;. How amazing it managed to support everything that C# 5.0 had, plus tonnes of improvements.</p>
 
+<p>It would dramatically increase uptake of F#, it would also mean the C# team could concentrate on doing something other than shoehorning everything from F# into C#. Win-win-win-win-WIN for everyone!</p>
+</div>
 
-	<a class='category' href='/blog/categories/fsharp/'>fsharp</a>, <a class='category' href='/blog/categories/holy-wars/'>holy wars</a>, <a class='category' href='/blog/categories/programming/'>programming</a>
-
-
-</span>
-	    
-	    <span class="comments"><a href="/blog/2013/11/24/tabs-vs-spaces/#disqus_thread">Comments</a></span>
-	    
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/11/24/tabs-vs-spaces/">Tabs vs Spaces</a></h1>
 </article>
 
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
 </div>
 			</div>
 			<footer id="footer" class="inner"><p>
@@ -145,7 +153,10 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
       var disqus_shortname = 'simondicksonblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://simonhdickson.github.io/blog/2014/02/27/fsharp-31-as-csharp-60-strict-mode/';
+        var disqus_url = 'http://simonhdickson.github.io/blog/2014/02/27/fsharp-31-as-csharp-60-strict-mode/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

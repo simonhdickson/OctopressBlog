@@ -4,7 +4,7 @@
   <title><![CDATA[Simon's Blog]]></title>
   <link href="http://simonhdickson.github.io/atom.xml" rel="self"/>
   <link href="http://simonhdickson.github.io/"/>
-  <updated>2013-12-14T10:05:51+00:00</updated>
+  <updated>2014-03-01T12:45:00+00:00</updated>
   <id>http://simonhdickson.github.io/</id>
   <author>
     <name><![CDATA[Simon Dickson]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[F# 3.1 as C# 6.0 Strict Mode]]></title>
+    <link href="http://simonhdickson.github.io/blog/2014/02/27/fsharp-31-as-csharp-60-strict-mode/"/>
+    <updated>2014-02-27T23:32:00+00:00</updated>
+    <id>http://simonhdickson.github.io/blog/2014/02/27/fsharp-31-as-csharp-60-strict-mode</id>
+    <content type="html"><![CDATA[<p>I was reading the (probable) new features of <a href="http://damieng.com/blog/2013/12/09/probable-c-6-0-features-illustrated">C# 6.0</a>, and I can&rsquo;t help but feel like C# wants to just be F# at this point but just doesn&rsquo;t want to alienate its fans.</p>
+
+<p>If imitation really is the sincerest form of flattery, then Don Syme must be very flattered by C# these days. Almost every version since 3.5 has just been implementing half assed versions things of F# already had (tuples, async and tasks I&rsquo;m looking at you), and now with 6.0 it&rsquo;s getting even worse.</p>
+
+<p>The truth is that C# is turning into the new Java, a language that is afraid to change anything for fear of attacks from the Enterprise shops.</p>
+
+<p>Don&rsquo;t fear however, because I have a solution that will solve both problems: re-name F# 3.1 to C# 6.0 strict mode, and have C# 5.0 as C# 6.0 quirks mode. The enterpise shops will be happy because nothing will have changed (and they love that). All the non-enteripse devs will marvel at all the amazing new features that have been introduced to this &ldquo;C# 6.0 strict mode&rdquo;. How amazing it managed to support everything that C# 5.0 had, plus tonnes of improvements.</p>
+
+<p>It would dramatically increase uptake of F#, it would also mean the C# team could concentrate on doing something other than shoehorning everything from F# into C#. Win-win-win-win-WIN for everyone!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Nancy + F# = Fancy]]></title>
