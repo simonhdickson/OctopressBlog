@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: kafka | Simon's Blog]]></title>
+  <link href="http://simonhdickson.github.io/blog/categories/kafka/atom.xml" rel="self"/>
+  <link href="http://simonhdickson.github.io/"/>
+  <updated>2014-06-14T11:19:16+01:00</updated>
+  <id>http://simonhdickson.github.io/</id>
+  <author>
+    <name><![CDATA[Simon Dickson]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Running Kafka on Windows]]></title>
+    <link href="http://simonhdickson.github.io/blog/2014/06/13/running-kafka-on-windows/"/>
+    <updated>2014-06-13T20:16:00+01:00</updated>
+    <id>http://simonhdickson.github.io/blog/2014/06/13/running-kafka-on-windows</id>
+    <content type="html"><![CDATA[<p>I was introduced to Kafka the other day and was having loads of fun running it from the mac terminal.</p>
+
+<p>Then I wanted to try out <a href="https://github.com/Jroland/kafka-net">the .net client library</a>, so went to run the windows bat files, and sadly it didn&rsquo;t work. Sadness :(. However there is a way to get it working under Windows using some Cywin magic.</p>
+
+<p>You need two things for this to work:</p>
+
+<h3>Prerequisites</h3>
+
+<ul>
+<li>Java needs to be installed.</li>
+<li><a href="https://github.com/babun/babun">Babun</a> installed (if you already have Cywin set up you can use that, but I&rsquo;ll carry on assuming you&rsquo;re using babun because it makes it so easy!)</li>
+<li>Download the latest version of <a href="http://kafka.apache.org/downloads.html">Kafka</a> (and untar it).</li>
+</ul>
+
+
+<p>Once you&rsquo;ve got all that, let&rsquo;s get started!</p>
+
+<h3>Instructions</h3>
+
+<ol>
+<li>Open <code>bin\kafka-run-class.sh</code> and add double quotes around the $JAVA variables, and change $CLASSPATH to <code>`cygpath -wp $CLASSPATH`</code> (with the backticks).</li>
+<li>This part is optional, but if you want to get logging to work you&rsquo;ll need to open <code>config\server.properties</code> and change the line <code>log.dirs=/tmp/kafka-logs</code> to <code>log.dirs=\\tmp\\kafka-logs</code>. And you want to do the same for all the rest of the config files you end up using.</li>
+<li>Open up babun and go the folder where you download kafka to, e.g. <code>cd /cygdrive/c/Users/YOURNAME/Downloads/kafka_2.9.2-0.8.1.1</code> or wherever you downloaded it to.</li>
+<li>Then you should be all done, and can follow the instructions <a href="http://kafka.apache.org/documentation.html#quickstart">here</a>.</li>
+</ol>
+
+
+<h3>Possible Issues</h3>
+
+<p>A few gotcha you might get, these problems shouldn&rsquo;t occur but if they do here are the fixes:</p>
+
+<ul>
+<li>In my case the server JRE bin folder didn&rsquo;t have the server folder in it, but if you install the JDK you can copy it over to the JRE folder to fix that.</li>
+<li>Probably related to the above fix, if you get an error something like <code>"Unrecognized VM option 'CheckCompressedOops'"</code> then if you open the <code>bin/kafka-run-class.sh</code> file and remove the line <code>-XX:+UseCompressedOops</code> it should work.</li>
+</ul>
+
+
+<p>Now that&rsquo;s out the way, Kafka Type Provider anyone?</p>
+]]></content>
+  </entry>
+  
+</feed>
