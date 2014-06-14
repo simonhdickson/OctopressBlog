@@ -4,7 +4,7 @@
   <title><![CDATA[Category: windows | Simon's Blog]]></title>
   <link href="http://simonhdickson.github.io/blog/categories/windows/atom.xml" rel="self"/>
   <link href="http://simonhdickson.github.io/"/>
-  <updated>2014-06-14T11:19:16+01:00</updated>
+  <updated>2014-06-14T11:22:07+01:00</updated>
   <id>http://simonhdickson.github.io/</id>
   <author>
     <name><![CDATA[Simon Dickson]]></name>
@@ -51,7 +51,7 @@
 
 <ul>
 <li>In my case the server JRE bin folder didn&rsquo;t have the server folder in it, but if you install the JDK you can copy it over to the JRE folder to fix that.</li>
-<li>Probably related to the above fix, if you get an error something like <code>"Unrecognized VM option 'CheckCompressedOops'"</code> then if you open the <code>bin/kafka-run-class.sh</code> file and remove the line <code>-XX:+UseCompressedOops</code> it should work.</li>
+<li>Probably related to the above fix, if you get an error something like <code>Unrecognized VM option 'CheckCompressedOops'</code> then if you open the <code>bin/kafka-run-class.sh</code> file and remove the line <code>-XX:+UseCompressedOops</code> it should work.</li>
 </ul>
 
 
